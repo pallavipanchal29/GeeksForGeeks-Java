@@ -14,23 +14,25 @@ public class ConvertArrayIntoZigzagFashion {
         boolean greater = false;
         boolean lesser = true;
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 1; i < n; i++) {
             if (lesser) {
-                if (arr[i] > arr[i + 1]) {
+                if (arr[i] < arr[i - 1]) {
                     int t = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = t;
-                    lesser = false;
-                    greater = true;
+                    arr[i] = arr[i - 1];
+                    arr[i - 1] = t;
+
                 }
+                lesser = false;
+                greater = true;
             } else if (greater) {
-                if (arr[i] < arr[i + 1]) {
+                if (arr[i] > arr[i - 1]) {
                     int t = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = t;
-                    lesser = true;
-                    greater = false;
+                    arr[i] = arr[i - 1];
+                    arr[i - 1] = t;
+
                 }
+                lesser = true;
+                greater = false;
             }
         }
     }
