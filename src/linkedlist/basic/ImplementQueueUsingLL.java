@@ -1,4 +1,4 @@
-package linkedlist.easy;
+package linkedlist.basic;
 
 public class ImplementQueueUsingLL {
     //pending
