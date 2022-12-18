@@ -8,64 +8,48 @@ import java.util.Queue;
 public class DeletionNodeBT {
     static Node root;
 
-    static void delete(Node root, int key) {
+    static Node deletion(Node root, int key) {
         if (root == null)
-            return;
+            return null;
+
         if (root.left == null && root.right == null) {
-            if (root.data == key) {
-                root = null;
-            }
-            return;
+            return root.data == key ? root : null;
         }
+
+        Node keyNode = null, temp = null, last = null;
         Queue<Node> q = new LinkedList<>();
-        q.add(root);
+        q.offer(root);
 
-        Node keyNode = null;
-        Node temp = null;
-
+        // Do level order traversal to find deepest
+        // node(temp), node to be deleted (key_node)
+        // and parent of deepest node(last)
         while (!q.isEmpty()) {
-            temp = q.peek();
-            q.remove();
+            temp = q.poll();
+
             if (temp.data == key)
                 keyNode = temp;
-            if (temp.left != null)
-                q.add(temp.left);
-            if (temp.right != null)
-                q.add(temp.right);
-        }
-        if (keyNode != null) {
-            int x = temp.data; // get data of rightmost deep node
-            DeleteDeepest(root, temp); // delete the deepest node
-            keyNode.data = x; // assign value of deepest node to keynode
-        }
 
-    }
-
-    private static void DeleteDeepest(Node root, Node deleNode) {
-        Queue<Node> q = new LinkedList<>();
-        q.add(root);
-        Node temp = null;
-        while (!q.isEmpty()) {
-            temp = q.peek();
-            q.remove();
-            if (temp.data == deleNode.data) {
-                temp = null;
-                return;
-            }
-            if (temp.right != null) {
-                if (temp.right == deleNode) {
-                    temp.right = null;
-                    return;
-                } else
-                    q.add(temp.right);
-            }
             if (temp.left != null) {
-                if (temp.left == deleNode) {
-                    temp.left = null;
-                    return;
-                } else
-                    q.add(temp.left);
+                last = temp; // storing the parent node
+                q.offer(temp.left);
+            }
+
+            if (temp.right != null) {
+                last = temp; // storing the parent node
+                q.offer(temp.right);
             }
         }
+
+        if (keyNode != null) {
+            keyNode.data = temp.data; // replacing key_node's data to deepest node's data
+
+            if (last.right == temp) {
+                last.right = null;
+            } else {
+                last.left = null;
+            }
+        }
+
+        return root;
     }
 }
