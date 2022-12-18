@@ -1,4 +1,4 @@
-package tree.binarytree;
+package tree.binarytree.easy;
 
 import tree.Node;
 
